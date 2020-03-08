@@ -22,7 +22,7 @@ extension URLSession: NetworkSession {
     }
 }
 
-// MARK: - URLSession+Helpers
+// MARK: - URLSession+NetworkSession Helpers
 private extension URLSession {
     func request(with request: URLRequest) -> RequestManager {
         var requestManager: RequestManager? = .init()
@@ -41,9 +41,11 @@ private extension URLSession {
             requestManager?.sessionResponse = ((data, response, error))
             requestManager = nil
         }
-        requestManager!.observation = task.observe(\.progress, options: [.new]) { [weak requestManager] (task, value) in
-            guard let progress = value.newValue else { return }
-            requestManager?.progress = Float(progress.fractionCompleted)
+        if #available(iOS 11, *) {
+            requestManager!.observation = task.observe(\.progress, options: [.new]) { [weak requestManager] (task, value) in
+                guard let progress = value.newValue else { return }
+                requestManager?.progress = Float(progress.fractionCompleted)
+            }
         }
         task.resume()
         requestManager!.identifier = task.taskIdentifier
@@ -62,9 +64,11 @@ private extension URLSession {
             }
             requestManager?.sessionResponse = ((data, response, error))
         }
-        requestManager!.observation = task.observe(\.progress, options: [.new]) { [weak requestManager] (task, value) in
-            guard let progress = value.newValue else { return }
-            requestManager?.progress = Float(progress.fractionCompleted)
+        if #available(iOS 11, *) {
+            requestManager!.observation = task.observe(\.progress, options: [.new]) { [weak requestManager] (task, value) in
+                guard let progress = value.newValue else { return }
+                requestManager?.progress = Float(progress.fractionCompleted)
+            }
         }
         task.resume()
         requestManager!.identifier = task.taskIdentifier

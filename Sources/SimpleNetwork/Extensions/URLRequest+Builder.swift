@@ -10,19 +10,19 @@ import Foundation
 
 public extension URLRequest {
     class Builder {
-        var url: URL!
-        var queryItems: [String:String] = .init()
-        var headers: [Header] = .init()
-        var method: Method = .get
-        var cachePolicy: NSURLRequest.CachePolicy = .useProtocolCachePolicy
-        var timeoutInterval: TimeInterval = 60
+        public var url: URL!
+        public var queryItems: [String:String] = .init()
+        public var headers: [Header] = .init()
+        public var method: Method = .get
+        public var cachePolicy: NSURLRequest.CachePolicy = .useProtocolCachePolicy
+        public var timeoutInterval: TimeInterval = 60
         
-        convenience init(closure: (Builder) -> Void) {
+        public convenience init(closure: (Builder) -> Void) {
             self.init()
             closure(self)
         }
         
-        func build() -> URLRequest {
+        public func build() -> URLRequest {
             url.add(queryItems: queryItems)
             let urlRequest = NSMutableURLRequest(url: url, cachePolicy: cachePolicy, timeoutInterval: timeoutInterval)
             headers.forEach {
