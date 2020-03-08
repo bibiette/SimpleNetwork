@@ -12,8 +12,11 @@ public extension URL {
     static func +(lhs: Self, rhs: String) -> Self {
         lhs.appendingPathComponent(rhs)
     }
+}
 
+internal extension URL {
     mutating func add(queryItems items: [String:String]) {
+        guard !items.isEmpty else { return }
         guard var urlComponents = URLComponents(url: self, resolvingAgainstBaseURL: false) else { return }
         var queryItems = [URLQueryItem]()
         items.forEach { queryItems.append(.init(name: $0, value: $1)) }

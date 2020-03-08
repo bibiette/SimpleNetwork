@@ -37,12 +37,13 @@ internal final class RequestManager: RequestManaging, RequestIdentifiable {
             let result = validate(sessionResponse: sessionResponse)
             resultHandler?(result)
             resultHandler = nil
+            progressHandler = nil
         }
     }
 
 }
 
-// MARK: - Helpers
+// MARK: - ResponseValidating
 extension RequestManager: ResponseValidating {
     func validate(sessionResponse: NetworkSession.Response) -> RequestResult<Data?> {
         if validators.isEmpty { validators.append(rangeValidator) }

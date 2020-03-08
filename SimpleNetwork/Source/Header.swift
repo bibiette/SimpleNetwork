@@ -16,6 +16,6 @@ public struct Header {
     }
     
     public func value(_ value: String) -> Header {
-        return Header(key: key, value: value)
+         Header(key: key, value: value)
     }
 }
