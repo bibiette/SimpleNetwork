@@ -6,6 +6,8 @@
 //  Copyright © 2020 Barbara Rollet. All rights reserved.
 //
 
+import Foundation
+
 protocol ResponseValidating {
     func validate(sessionResponse: NetworkSession.Response) -> RequestResult<Data?>
 }
