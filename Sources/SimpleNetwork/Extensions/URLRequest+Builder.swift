@@ -10,12 +10,12 @@ import Foundation
 
 public extension URLRequest {
     class Builder {
-        var url: URL!
-        var queryItems: [String:String] = .init()
-        var headers: [Header] = .init()
-        var method: Method = .get
-        var cachePolicy: NSURLRequest.CachePolicy = .useProtocolCachePolicy
-        var timeoutInterval: TimeInterval = 60
+        public var url: URL!
+        public var queryItems: [String:String] = .init()
+        public var headers: [Header] = .init()
+        public var method: Method = .get
+        public var cachePolicy: NSURLRequest.CachePolicy = .useProtocolCachePolicy
+        public var timeoutInterval: TimeInterval = 60
         
         public convenience init(closure: (Builder) -> Void) {
             self.init()
