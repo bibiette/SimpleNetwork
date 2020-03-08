@@ -12,5 +12,3 @@ public protocol RequestManaging {
     var sessionResponse: NetworkSession.Response? { get set }
     var progress: Float? { get set }
 }
-
-typealias ResultHandler = (RequestResult<Data?>) -> Void

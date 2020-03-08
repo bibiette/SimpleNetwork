@@ -10,7 +10,10 @@ import Foundation
 
 internal final class RequestManager: RequestManaging, RequestIdentifiable {
     private var progressHandler: Progressing.ProgressHandler?
-    private var resultHandler: ResultHandler?
+    private var resultHandler: Resulting.ResultHandler?
+    private var errorHandler: Resulting.ErrorHandler?
+    private var successHandler: Resulting.SuccessHandler?
+    
     private var validators = [ResponseValidating]()
     private var rangeValidator = StatusCodeRangeValidator(range: 200..<300)
     var observation: NSKeyValueObservation?
@@ -36,7 +39,13 @@ internal final class RequestManager: RequestManaging, RequestIdentifiable {
             guard let sessionResponse = sessionResponse else { return }
             let result = validate(sessionResponse: sessionResponse)
             resultHandler?(result)
+            switch result {
+            case .failure(let error): errorHandler?(error)
+            case .success(let data): successHandler?(data)
+            }
             resultHandler = nil
+            errorHandler = nil
+            successHandler = nil
             progressHandler = nil
         }
     }
@@ -67,7 +76,16 @@ extension RequestManager: Validating {
 
 // MARK: - Resulting
 extension RequestManager: Resulting {
-    func result(then handler: @escaping ResultHandler) {
+    func done(then handler: @escaping Resulting.SuccessHandler) -> Self {
+        successHandler = handler
+        return self
+    }
+    
+    func `catch`(then handler: @escaping Resulting.ErrorHandler) {
+        errorHandler = handler
+    }
+    
+    func result(then handler: @escaping Resulting.ResultHandler) {
         resultHandler = handler
     }
 }

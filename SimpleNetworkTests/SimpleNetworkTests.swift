@@ -19,12 +19,13 @@ class SimpleNetworkTests: XCTestCase {
     func testWhenPingGoogle_ThenRequestSucceed() throws {
         let url = try XCTUnwrap(URL(string: "https://google.com"))
         let expectation = self.expectation(description: "Expectation")
-        mockService.request(urlRequest: .make(endpoint: url))
-            .result { result in
-                switch result {
-                case .success(_): expectation.fulfill()
-                case .failure(let error): XCTFail("Failed with error \(error)")
-                }
+        mockService
+            .request(urlRequest: .make(endpoint: url))
+            .done { _ in
+                expectation.fulfill()
+        }
+            .catch { error in
+            XCTFail("Failed with error \(error)")
         }
         wait(for: [expectation], timeout: 30)
     }
