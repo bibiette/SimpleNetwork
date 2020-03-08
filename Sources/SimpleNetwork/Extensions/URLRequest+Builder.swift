@@ -17,12 +17,12 @@ public extension URLRequest {
         var cachePolicy: NSURLRequest.CachePolicy = .useProtocolCachePolicy
         var timeoutInterval: TimeInterval = 60
         
-        convenience init(closure: (Builder) -> Void) {
+        public convenience init(closure: (Builder) -> Void) {
             self.init()
             closure(self)
         }
         
-        func build() -> URLRequest {
+        public func build() -> URLRequest {
             url.add(queryItems: queryItems)
             let urlRequest = NSMutableURLRequest(url: url, cachePolicy: cachePolicy, timeoutInterval: timeoutInterval)
             headers.forEach {
