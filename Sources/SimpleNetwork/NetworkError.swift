@@ -9,6 +9,6 @@
 import Foundation
 
 public struct NetworkError: Error {
-    let statusCode: Int
-    var payload: Data? = nil
+    public let statusCode: Int
+    public var payload: Data? = nil
 }
